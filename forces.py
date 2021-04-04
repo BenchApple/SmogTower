@@ -27,9 +27,9 @@ def drag_coeff(rho_fluid, diameter, v_apparent, mu_fluid):
 # Returns the drag force given the given parameters.
 # Drag force changes with time until terminal velocity because 
 # v_apparent = - v_vert(t)
-def drag_force(rho_fluid, diameter, v_apparent, mu_fluid):
+def drag_force(rho_fluid, diameter, v_apparent, mu_fluid, v_vert):
     C_d = drag_coeff(rho_fluid, diameter, v_apparent, mu_fluid)
-    return (1/2) * rho_fluid * C_d * ((math.pi / 4) * diameter ** 2) * (v_apparent ** 2)
+    return (1/2) * rho_fluid * C_d * ((math.pi / 4) * diameter ** 2) * (v_vert ** 2)
 
 # Describes the force on the particle due to the electric collector field
 # Foce acts downwards.
