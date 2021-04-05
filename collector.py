@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 # concentration default is given in micrograms per m^3 as given by the WHO
 # TODO make sure i didn't mess up the reynold's number equation, bc that would be bad
 class SmogCollector:
-    def __init__(self, _rho_part=500, _d_part=0.0000025, _rho_fluid=1.28, _mu_fluid=0.000001803, \
-                 _plate_voltage=20000, _plate_dist=0.05, _H=400, _x_init=200, _v_init=-0.05, _a_init=-0.01, \
+    def __init__(self, _rho_part=500, _d_part=0.0000025, _rho_fluid=1.225, _mu_fluid=0.000001803, \
+                 _plate_voltage=20000, _plate_dist=0.05, _H=400, _x_init=100, _v_init=-0.05, _a_init=-0.01, \
                  _concentration=150, _t_step=0.002):
         e_0 = 8.854187 * math.pow(10, -12)
 
@@ -103,7 +103,7 @@ class SmogCollector:
 
         new_a = (1 / self.part_mass) * (self.get_F() + \
                                                   drag_force(self.rho_fluid, self.d_part, -new_v, self.mu_fluid, new_v) + \
-                                                  electric_other(self.q, self.cur_c, self.cur_x, self.H))
+                                                  electric_other(self.q, self.cur_c, new_x, self.H))
         self.accel.append(new_a)
 
         # For now, just model the concentration as going down a little bit every time time step.
@@ -111,7 +111,8 @@ class SmogCollector:
         new_c = self.cur_c - 0.000005
         self.concen.append(new_c)
 
-        new_F = new_a * self.part_mass
+        new_F = (self.get_F() + drag_force(self.rho_fluid, self.d_part, -new_v, self.mu_fluid, new_v) + \
+                                electric_other(self.q, self.cur_c, new_x, self.H))
         self.force.append(new_F)
 
         # Now update each of the current values
@@ -133,7 +134,7 @@ class SmogCollector:
         print("Current force is: " + str(self.cur_force))
         print("Current time is: " + str(self.t))
 
-def main():
+def test1():
     test_system = SmogCollector()
     test_system.print_forces()
     test_system.print_stats()
@@ -156,8 +157,9 @@ def main():
     plt.plot(test_system.pos)
     plt.show()
 
-def oldmain():
+def test2():
     t_tracker = []
+    forces = []
 
     for i in range(0, 200):
         cur_system = SmogCollector(_x_init=i)
@@ -167,10 +169,17 @@ def oldmain():
 
         t = cur_system.t
         t_tracker.append(t)
+        f = cur_system.cur_force
+        forces.append(f)
         print(t)
+        print(f)
 
-    plt.plot(t_tracker)
+    plt.plot(forces)
     plt.show()
+
+def main():
+    #test1()
+    test2()
 
 if __name__ == "__main__":
     main()

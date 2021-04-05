@@ -12,7 +12,8 @@ def grav_force(rho_part, d_part):
 
 def bouyant_force(rho_part, d_part):
     g = 9.81998
-    return (math.pi / 6) * rho_part * g * (d_part ** 3)
+    rho_air = 1.225
+    return (math.pi / 6) * rho_air * g * (d_part ** 3)
 
 # rho_fluid is density of fluid 
 # diameter is diameter of object, v_apparent is apparent velocity of object.
