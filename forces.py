@@ -6,14 +6,14 @@ import math
 
 # Calculates the gravitational force. This force is directed downwards
 # d_part is the diameter of the particle
-def grav_force(rho_part, d_part):
+def grav_force(total_mass):
     g = 9.81998
-    return (math.pi / 6) * rho_part * g * (d_part ** 3)
+    return g * total_mass
 
-def bouyant_force(rho_part, d_part):
+def bouyant_force(rho_part, d_part, num_particles):
     g = 9.81998
     rho_air = 1.225
-    return (math.pi / 6) * rho_air * g * (d_part ** 3)
+    return num_particles * ((math.pi / 6) * rho_air * g * (d_part ** 3))
 
 # rho_fluid is density of fluid 
 # diameter is diameter of object, v_apparent is apparent velocity of object.
