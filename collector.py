@@ -17,11 +17,11 @@ import matplotlib.pyplot as plt
 class SmogCollector:
     def __init__(self, _rho_part=1650, _d_part=0.0000025, _rho_fluid=1.225, _mu_fluid=0.000001803, \
                  _plate_voltage=20000, _plate_dist=0.05, _H=500, _x_init=100, _v_init=-0.05, _a_init=-0.01, \
-                 _concentration=150, _t_step=0.002):
+                 _concentration=150, _t_step=0.002, _q=1.906*math.pow(10,-6)):
         e_0 = 8.854187 * math.pow(10, -12)
 
         # I have literally no clue how to find the charge of a particle so im gonna use this
-        self.q = 1.906 * math.pow(10, -4)
+        self.q = _q
 
         self.rho_part = _rho_part
         self.d_part = _d_part
