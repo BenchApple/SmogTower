@@ -263,13 +263,65 @@ def cotters():
     print("Trial 11: " + str(t11))
     print("Trial 12: " + str(t12))
 
+def graphing():
+    # Graph the plate voltage across the different x values and the resultant time.
+    x_vals = [25, 50, 100, 150, 200, 300]
+    plate_voltages = [i for i in range(10000, 100001, 1000)]
+    time_vals = []
+    q_default = math.pow(10, -7)
 
+    for x in x_vals:
+        for v in plate_voltages:
+            cur_trial = SmogCollector(_plate_voltage=v, _x_init=x, _q=q_default)
+            cur_t = cur_trial.run_simulation()
+            time_vals.append(cur_t)
+
+        plt.plot(plate_voltages, time_vals)
+        plt.ylabel("Time to Collect all Particles (seconds)")
+        plt.xlabel("Voltage Running Through Base Plate (Volts)")
+        plt.title("Voltage Running through Base Plate vs Time to Collect Particles at " + str(x) + " meters above Collector Plate (Volts vs seconds)")
+        plt.show()
+
+        # Wipe the time values
+        time_vals = []
+
+def graphing_q():
+    # Graph the plate voltage across the different x values and the resultant time.
+    x_vals = [25, 50, 100, 150, 200, 300]
+    time_vals = []
+    v_default = 30000
+
+    # Create the q values
+    q_vals = []
+    for n in range(15, 5 - 1, -1):
+        q_vals.append(1 * math.pow(10, -n))
+        q_vals.append(2.5 * math.pow(10, -n))
+        q_vals.append(5 * math.pow(10, -n))
+        q_vals.append(7.5 * math.pow(10, -n))
+
+    for x in x_vals:
+        for q in q_vals:
+            cur_trial = SmogCollector(_plate_voltage=v_default, _x_init=x, _q=q)
+            cur_t = cur_trial.run_simulation()
+            time_vals.append(cur_t)
+
+        plt.semilogx(q_vals, time_vals)
+        plt.ylabel("Time to Collect all Particles (seconds)")
+        plt.xlabel("Ionization Charge of Smog Particles (C)")
+        plt.title("Ionization Charge of Smog Particles vs Time to Collect Particles at " + str(x) + " meters above Collector Plate (Coulombs vs seconds)")
+        plt.show()
+
+        # Wipe the time values
+        time_vals = []
+    
 
 def main():
     #testing()
     #test1()
     #test2()
-    cotters()
+    #cotters()
+    #graphing()
+    graphing_q()
 
 if __name__ == "__main__":
     main()
