@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 # TODO check to make sure my accel and velo readings are right because they seem a little too high rn. 
 class SmogCollector:
     def __init__(self, _rho_part=1650, _d_part=0.0000025, _rho_fluid=1.225, _mu_fluid=0.000001803, \
-                 _plate_voltage=20000, _plate_dist=0.05, _H=500, _x_init=100, _v_init=-0.05, _a_init=-0.01, \
+                 _plate_voltage=20000, _plate_dist=0.05, _H=500, _x_init=100, _v_init=-0.01, _a_init=-0.01, \
                  _concentration=150, _t_step=0.002, _q=1.906*math.pow(10,-6)):
         e_0 = 8.854187 * math.pow(10, -12)
 
@@ -148,6 +148,12 @@ class SmogCollector:
         # Increment the time tracker
         self.t += self.t_step
 
+    def run_simulation(self):
+        while self.cur_x > 0:
+            self.step_time()
+
+        return self.t
+
     def print_stats(self):
         print("Current position is: " + str(self.cur_x))
         print("Current velocity is: " + str(self.cur_v))
@@ -202,10 +208,68 @@ def test2():
 def testing():
     test = SmogCollector()
 
+def cotters():
+    dia_lo = 0.0000025
+    dia_hi = 0.000001
+
+    volt_lo = 100000
+    volt_hi = 1000000
+
+    dist_lo = 0.01
+    dist_hi = 0.18
+
+    concen_lo = 20
+    concen_hi = 200
+
+    q_lo = math.pow(10, -10)
+    q_hi = math.pow(10, -5)
+
+    trial1 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_lo, _plate_dist=dist_lo, _concentration=concen_lo, _q=q_lo)
+    trial2 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_lo, _plate_dist=dist_lo, _concentration=concen_lo, _q=q_lo)
+    trial3 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_hi, _plate_dist=dist_lo, _concentration=concen_lo, _q=q_lo)
+    trial4 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_lo, _plate_dist=dist_hi, _concentration=concen_lo, _q=q_lo)
+    trial5 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_lo, _plate_dist=dist_lo, _concentration=concen_hi, _q=q_lo)
+    trial6 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_lo, _plate_dist=dist_lo, _concentration=concen_lo, _q=q_hi)
+    trial7 = SmogCollector(_d_part=dia_lo, _plate_voltage=volt_hi, _plate_dist=dist_hi, _concentration=concen_hi, _q=q_hi)
+    trial8 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_lo, _plate_dist=dist_hi, _concentration=concen_hi, _q=q_hi)
+    trial9 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_hi, _plate_dist=dist_lo, _concentration=concen_hi, _q=q_hi)
+    trial10 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_hi, _plate_dist=dist_hi, _concentration=concen_lo, _q=q_hi)
+    trial11 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_hi, _plate_dist=dist_hi, _concentration=concen_hi, _q=q_lo)
+    trial12 = SmogCollector(_d_part=dia_hi, _plate_voltage=volt_hi, _plate_dist=dist_hi, _concentration=concen_hi, _q=q_hi)
+
+    t1 = trial1.run_simulation()
+    t2 = trial2.run_simulation()
+    t3 = trial3.run_simulation()
+    t4 = trial4.run_simulation()
+    t5 = trial5.run_simulation()
+    t6 = trial6.run_simulation()
+    t7 = trial7.run_simulation()
+    t8 = trial8.run_simulation()
+    t9 = trial9.run_simulation()
+    t10 = trial10.run_simulation()
+    t11 = trial11.run_simulation()
+    t12 = trial12.run_simulation()
+
+    print("Trial 1: " + str(t1))
+    print("Trial 2: " + str(t2))
+    print("Trial 3: " + str(t3))
+    print("Trial 4: " + str(t4))
+    print("Trial 5: " + str(t5))
+    print("Trial 6: " + str(t6))
+    print("Trial 7: " + str(t7))
+    print("Trial 8: " + str(t8))
+    print("Trial 9: " + str(t9))
+    print("Trial 10: " + str(t10))
+    print("Trial 11: " + str(t11))
+    print("Trial 12: " + str(t12))
+
+
+
 def main():
     #testing()
-    test1()
+    #test1()
     #test2()
+    cotters()
 
 if __name__ == "__main__":
     main()
