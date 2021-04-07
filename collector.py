@@ -314,6 +314,24 @@ def graphing_q():
         # Wipe the time values
         time_vals = []
     
+def final_test():
+    q = math.pow(10, -5)
+    dia = 0.000001
+    times = []
+    x_vals = [i for i in range(1, 51)]
+    pm2cutoff = [0.3346 for i in range(1, 51)]
+    pm10cutoff = [0.33841 for i in range(1, 51)]
+    for x in range(1, 51):
+        cur_trial = SmogCollector(_plate_voltage=100000, _x_init=x, _q=q, _d_part=dia)
+        cur_t = cur_trial.run_simulation()
+        times.append(cur_t)
+
+    plt.plot(x_vals, times)
+    plt.plot(x_vals, pm2cutoff)
+    plt.ylabel("Time to Collect all Particles (seconds)")
+    plt.xlabel("Distance Above Plate Collecter (m)")
+    plt.title("Time to Collect all Particles at various heights at 100000 V and Ionization charge of 10^-5 C for PM2.5")
+    plt.show()
 
 def main():
     #testing()
@@ -321,7 +339,8 @@ def main():
     #test2()
     #cotters()
     #graphing()
-    graphing_q()
+    #graphing_q()
+    final_test()
 
 if __name__ == "__main__":
     main()
